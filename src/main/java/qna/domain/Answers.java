@@ -1,5 +1,6 @@
 package qna.domain;
 
+import org.hibernate.annotations.BatchSize;
 import qna.CannotDeleteException;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Embeddable
 public class Answers {
 
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Answer> answers = new HashSet<>();
 

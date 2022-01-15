@@ -37,13 +37,7 @@ class QuestionServiceTest {
 
     @BeforeEach
     void setUp() {
-        User user = new User("userId", "password", "name", "email");
-        userRepository.save(user);
-
-        question = new Question("title1", "contents1");
-        question.addAnswer(new Answer(user, "contents"));
-        question.addComment(new Comment("comment"));
-        questionRepository.save(question);
+        question = saveQuestion(saveUser(1), 1);
         entityManager.clear();
     }
 
@@ -55,5 +49,18 @@ class QuestionServiceTest {
 
         // then
         System.out.println("savedQuestion = " + savedQuestion);
+    }
+
+    private User saveUser(int seq) {
+        User user = new User("user" + seq, "password", "name", "email");
+        userRepository.save(user);
+        return user;
+    }
+
+    private Question saveQuestion(User user, int seq) {
+        Question question = new Question("title" + seq, "contents" + seq);
+        question.addAnswer(new Answer(user, "contents"));
+        question.addComment(new Comment("comment"));
+        return questionRepository.save(question);
     }
 }
