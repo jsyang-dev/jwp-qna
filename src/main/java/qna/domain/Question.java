@@ -5,12 +5,15 @@ import qna.CannotDeleteException;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,6 +38,9 @@ public class Question extends BaseEntity {
 
     private Answers answers = new Answers();
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<Comment> comments = new ArrayList<>();
+
     protected Question() {
     }
 
@@ -56,6 +62,11 @@ public class Question extends BaseEntity {
     public void addAnswer(Answer answer) {
         answers.add(answer);
         answer.toQuestion(this);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.toQuestion(this);
     }
 
     public Long getId() {

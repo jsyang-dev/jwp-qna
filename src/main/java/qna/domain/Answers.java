@@ -2,7 +2,9 @@ package qna.domain;
 
 import qna.CannotDeleteException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ import java.util.Set;
 @Embeddable
 public class Answers {
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Answer> answers = new HashSet<>();
 
     public void add(Answer answer) {
@@ -23,7 +25,6 @@ public class Answers {
     public Set<Answer> getAnswers() {
         return answers;
     }
-
 
     public void deleteAnswers(User writer) {
         validateAnswers(writer);

@@ -57,6 +57,11 @@ public class Answer extends BaseEntity {
         question.addAnswer(this);
     }
 
+    public Answer(User writer, String contents) {
+        this.writer = writer;
+        this.contents = contents;
+    }
+
     public boolean isOwner(User writer) {
         return this.writer.equals(writer);
     }
